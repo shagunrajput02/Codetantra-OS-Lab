@@ -1,0 +1,50 @@
+#include<stdio.h>
+#include<conio.h>
+#include<string.h>
+void main(){
+	int i,j,n,at[10],bt[10],wt[10],tat[10],start[10],finish[10],temp;
+	char pi[10][10],tmp[10],totwt,tottat;
+	float awt,atat;
+	printf("Enter the number of process:");
+	scanf("%d",&n);
+	for(i=0;i<n;i++){
+		printf("Enter process name, arrival time & execution time:");
+		scanf("%s%d%d",pi[i],&at[i],&bt[i]);}
+	printf("Pname\tarrivaltime\texecutiontime\twaitingtime\ttatime\n");
+	for(i=0;i<n;i++){
+		for(j=i+1;j<n;j++){
+			if(bt[i]>bt[j]){
+				temp=bt[i];
+				bt[i]=bt[j];
+				bt[j]=temp;
+				strcpy(tmp,pi[i]);
+				strcpy(pi[i],pi[j]);
+				strcpy(pi[j],tmp);
+			}
+		}
+	}
+    for(i=0;i<n;i++){
+	    if(i==0){
+		    start[i]=at[i];
+	    }
+	    else start[i]=finish[i-1];
+	
+	    wt[i]=start[i]-at[i];
+	    finish[i]=start[i]+bt[i];
+	    tat[i]=finish[i]-at[i];
+	    totwt+=wt[i];
+	    tottat+=tat[i];
+	
+    }
+    awt=(float)totwt/n;
+    atat=(float)tottat/n;
+
+    for(i=0;i<n;i++){
+	    if(i==0)
+	        printf("%s\t   %d\t\t   %d\t\t    %d\t\t   %d\n",pi[i],at[i],bt[i],wt[i],tat[i]);
+	    else
+	        printf("%s\t   %d\t\t   %d\t\t   %d\t\t   %d\n",pi[i],at[i],bt[i],wt[i],tat[i]);
+    }
+    printf("Average waiting time is:%f\n",awt);
+    printf("Average turnaroundtime is:%f\n",atat);
+}
